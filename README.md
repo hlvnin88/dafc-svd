@@ -156,7 +156,7 @@ python reproduce_all_results.py
 
 All numbers below match the paper **exactly** after running the pipeline. Numbering is sequential 8.1–8.21; the original paper's table number (if different) is noted in each subsection.
 
-### 8.1 Dataset statistics (paper Table 2)
+### 8.1 Dataset statistics 
 
 | Dataset | Raw | Clean | Train | Val | Test |
 |---|---|---|---|---|---|
@@ -166,7 +166,7 @@ All numbers below match the paper **exactly** after running the pipeline. Number
 
 Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 vulnerable + 21,457 non-vulnerable**.
 
-### 8.2 Feature configuration (paper Table 3)
+### 8.2 Feature configuration 
 
 | Group | Representation | Encoder | Dim |
 |---|---|---|---|
@@ -181,7 +181,7 @@ Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 
 | F9  | Deep structural embedding | GraphCodeBERT-base | 768 → 256 |
 | F10 | Security-risk metrics | 32 static metrics | 32 → 256 |
 
-### 8.3 Extraction results on Devign (paper Table 4)
+### 8.3 Extraction results on Devign 
 
 | Group | File | Input | Success | Failed | Coverage | Time | Storage |
 |---|---|---|---|---|---|---|---|
@@ -196,7 +196,7 @@ Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 
 | F9  | F9_deep_structural.npy | 24,754 | 23,820 | 934 | 96.23% | 1.68 h | 0.89 GB |
 | F10 | F10_security_metrics.csv | 24,754 | 24,620 | 134 | 99.46% | 12 min | 0.08 GB |
 
-### 8.4 Cost components on Devign (paper Table 5)
+### 8.4 Cost components on Devign 
 
 | Group | Ext time | Inf time (ms/sample) | Dim | Peak mem (MB) | Failure rate (%) | Cost |
 |---|---|---|---|---|---|---|
@@ -213,7 +213,7 @@ Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 
 
 Cost = `0.2 × (ext_norm + inf_norm + dim_norm + mem_norm + fail_norm)` with Min-Max normalization over 10 groups.
 
-### 8.5 Individual performance on Devign (paper Table 4b)
+### 8.5 Individual performance on Devign 
 
 | Group | Representation | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|---|
@@ -230,7 +230,7 @@ Cost = `0.2 × (ext_norm + inf_norm + dim_norm + mem_norm + fail_norm)` with Min
 
 Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 
-### 8.6 Filtering funnel (paper Table 5b)
+### 8.6 Filtering funnel 
 
 | Step | Remaining | Retention |
 |---|---|---|
@@ -240,7 +240,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | After Cost ≤ 0.75 | 41 | 10.93% |
 | After PreScore ranking (K=7) | 7 | 1.87% |
 
-### 8.7 Top-7 selected combinations (paper Table 6)
+### 8.7 Top-7 selected combinations 
 
 | Rank | Symbol | Features | Coverage | Com | Ovl | Cost | PreScore |
 |---|---|---|---|---|---|---|---|
@@ -252,7 +252,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | 6 | S6 | F5 + F8 + F10      | 0.928 | 0.432 | 0.318 | 0.640 | 0.821 |
 | 7 | S7 | F8 + F9            | 0.956 | 0.405 | 0.438 | 0.550 | 0.817 |
 
-### 8.8 Threshold sensitivity (paper Table 7, code.docx)
+### 8.8 Threshold sensitivity 
 
 | Configuration | θ_cov | θ_ovl | θ_cost | After Coverage | After Ovl | After Cost |
 |---|---|---|---|---|---|---|
@@ -260,7 +260,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | Default      | 0.80 | 0.60 | 0.75 | 286 | 132 | 41 |
 | Relaxed      | 0.77 | 0.63 | 0.78 | 303 | 149 | 49 |
 
-### 8.9 Five-feature analysis (paper Table 8, code.docx)
+### 8.9 Five-feature analysis 
 
 | Rank | Feature combination | Coverage | Com | Ovl | Cost | PreScore |
 |---|---|---|---|---|---|---|
@@ -273,7 +273,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 
 Best 5-feature PreScore = 0.813, lower than S7 = 0.817 → no 5-feature combination was promoted to MMAF.
 
-### 8.10 PreScore sensitivity (paper Table 9, code.docx)
+### 8.10 PreScore sensitivity 
 
 | Configuration | α | β | γ | η | Rank of S1 | Overlap with Default |
 |---|---|---|---|---|---|---|
@@ -283,7 +283,7 @@ Best 5-feature PreScore = 0.813, lower than S7 = 0.817 → no 5-feature combinat
 | Overlap-aware            | 0.35 | 0.30 | 0.25 | 0.10 | 2 | 5/7 |
 | Cost-aware               | 0.35 | 0.30 | 0.20 | 0.15 | 4 | 5/7 |
 
-### 8.11 Seed stability (paper Table 7, code.docx)
+### 8.11 Seed stability 
 
 | Symbol | Seed 42 | Seed 52 | Seed 62 | Seed 72 | Seed 82 | Frequency |
 |---|---|---|---|---|---|---|
@@ -297,7 +297,7 @@ Best 5-feature PreScore = 0.813, lower than S7 = 0.817 → no 5-feature combinat
 
 Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 52, 62, 72, 82).
 
-### 8.12 MMAF on Devign (paper Table 7, Update.docx)
+### 8.12 MMAF on Devign 
 
 | Symbol | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
@@ -309,7 +309,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | S6 | — | — | 0.865 ± 0.004 | — |
 | S7 | — | — | 0.852 ± 0.005 | — |
 
-### 8.13 MMAF on Juliet (paper Table 8, Update.docx)
+### 8.13 MMAF on Juliet 
 
 | Symbol | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
@@ -321,7 +321,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | S6 | 0.908 ± 0.004 | 0.890 ± 0.004 | 0.899 ± 0.004 | 0.941 ± 0.003 |
 | S7 | 0.890 ± 0.004 | 0.870 ± 0.004 | 0.880 ± 0.004 | 0.920 ± 0.003 |
 
-### 8.14 MMAF on Big-Vul (external test) (paper Table 9, Update.docx)
+### 8.14 MMAF on Big-Vul 
 
 | Symbol | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
@@ -333,7 +333,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | S6 | 0.758 ± 0.006 | 0.764 ± 0.006 | 0.761 ± 0.006 | 0.846 ± 0.005 |
 | S7 | 0.738 ± 0.006 | 0.746 ± 0.006 | 0.742 ± 0.006 | 0.824 ± 0.005 |
 
-### 8.15 F1 summary across datasets (paper Table 10, Update.docx)
+### 8.15 F1 summary across datasets 
 
 | Symbol | Devign | Juliet | Big-Vul | Average | Drop |
 |---|---|---|---|---|---|
@@ -345,7 +345,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | S6 | 0.865 | 0.899 | 0.761 | 0.842 | 0.104 |
 | S7 | 0.852 | 0.880 | 0.742 | 0.825 | 0.110 |
 
-### 8.16 Direct comparison (paper Table 11, Update.docx)
+### 8.16 Direct comparison 
 
 | Method | Features | Devign | Juliet | Big-Vul | Cost |
 |---|---|---|---|---|---|
@@ -354,7 +354,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | Full concatenation | F1–F10 | 0.864 | 0.889 | 0.738 | 1.000 |
 | **DAFC-SVD + MMAF** | **S1** | **0.881** | **0.912** | **0.785** | 0.720 |
 
-### 8.17 Internal comparison and ablation (paper Table 12, Update.docx)
+### 8.17 Internal comparison and ablation 
 
 | Variant | Selected combo | Devign | Juliet | Big-Vul | Cost |
 |---|---|---|---|---|---|
@@ -366,7 +366,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | Random + MMAF | F1+F2+F5+F10 | 0.852 | 0.881 | 0.731 | 0.590 |
 | Top-individual + MMAF | F5+F7+F8+F9 | 0.869 | 0.899 | 0.757 | 0.870 |
 
-### 8.18 Ablation fusion (paper Table 12, Update.docx)
+### 8.18 Ablation fusion 
 
 | Variant | Selected combo | Devign | Juliet | Big-Vul | Cost |
 |---|---|---|---|---|---|
@@ -374,7 +374,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | DAFC-SVD + Concatenation | F5+F8+F9+F10 | 0.861 | 0.892 | 0.746 | 0.720 |
 | DAFC-SVD + Average fusion | F5+F8+F9+F10 | 0.855 | 0.884 | 0.735 | 0.720 |
 
-### 8.19 Selection by usage objective (paper Table 13, Update.docx)
+### 8.19 Selection by usage objective 
 
 | Objective | Combo | Devign | Juliet | Big-Vul | Avg | Cost |
 |---|---|---|---|---|---|---|
