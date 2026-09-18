@@ -356,17 +356,8 @@ results/
 └── cost_logs/{cost_log.csv, valid_sample_ids.json}
 ```
 
-## 10. Reproducibility Checklist
 
-- [x] Random seeds fixed to `{42, 52, 62, 72, 82}`.
-- [x] Use the **exact dataset sources** listed in Section 3.
-- [x] Split IDs are **fixed and stored** in `data/{dataset}/splits/*.txt`.
-- [x] Use the same hyperparameters (see `config.py`).
-- [x] Report metrics as **mean ± std over 5 seeds**.
-- [x] Do **not** retrain encoders on Juliet or Big-Vul — load Devign checkpoints.
-- [x] Do **not** reselect Top-K or fine-tune on Big-Vul.
-
-## 11. Environment
+## 10. Environment
 
 - CPU: Intel Core i9 (12 cores / 24 threads)
 - RAM: 64 GB
@@ -374,22 +365,12 @@ results/
 - OS: Ubuntu 20.04
 - Python 3.9, PyTorch, Hugging Face Transformers, scikit-learn
 
-## 12. Citation
+#
 
-```bibtex
-@article{dafc_svd_2026,
-  title   = {DAFC-SVD: Deficiency-Aware Feature Complementarity for Source Code Vulnerability Detection},
-  author  = {[Authors]},
-  journal = {[Journal]},
-  year    = {2026},
-  doi     = {[DOI]}
-}
-```
-
-## 13. License
+## 11. License
 
 [License here — e.g., MIT / Apache-2.0 / CC BY 4.0]
 
-## 14. Contact
+## 12. Contact
 
 Open an issue or email [hlvnin88@gmail.com].
