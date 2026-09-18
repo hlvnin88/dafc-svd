@@ -88,18 +88,46 @@ GRAPHCODEBERT_NAME = 'microsoft/graphcodebert-base'
 ENCODER_DIM        = 768           # Bảng 3 Update.docx
 ENCODER_MAX_LEN    = 512
 
-# F10: 32 static metrics
+# ---------- F10: 32 static security-risk metrics ----------
+# Chia 5 nhóm theo Phụ lục A (Bảng A1):
+#   1. Complexity           — độ phức tạp mã nguồn
+#   2. Memory/Pointer       — thao tác bộ nhớ/con trỏ
+#   3. Dangerous API        — API có nguy cơ
+#   4. Error handling       — kiểm tra và xử lý lỗi
+#   5. Source-sink/Data-flow — quan hệ source–sink/data-flow
+F10_METRIC_GROUPS = {
+    'complexity': [
+        'num_lines', 'num_functions', 'num_params',
+        'cyclomatic_complexity', 'nesting_depth', 'num_branches',
+    ],
+    'memory_pointer': [
+        'has_pointer', 'num_pointer_derefs', 'has_array', 'num_array_index',
+        'has_ampersand', 'has_void_ptr', 'num_bit_ops',
+    ],
+    'dangerous_api': [
+        'num_dangerous_apis', 'num_strcpy', 'num_strcat', 'num_sprintf',
+        'num_gets', 'num_malloc', 'num_free', 'num_memcpy',
+    ],
+    'error_handling': [
+        'has_bounds_check', 'has_null_check', 'has_size_check',
+        'num_returns', 'num_goto',
+    ],
+    'source_sink_dataflow': [
+        'num_loops', 'num_arithmetic_ops', 'num_assignments',
+        'num_comparisons', 'num_casts', 'has_union',
+    ],
+}
+
+# Flatten → list 32 metrics (giữ thứ tự nhóm)
 F10_METRIC_NAMES = [
-    'num_lines','num_functions','num_params','cyclomatic_complexity',
-    'nesting_depth','num_branches','num_loops','num_returns',
-    'num_dangerous_apis','num_strcpy','num_strcat','num_sprintf',
-    'num_gets','num_malloc','num_free','num_memcpy',
-    'has_pointer','num_pointer_derefs','has_array','num_array_index',
-    'has_ampersand','num_bit_ops','has_union','has_void_ptr',
-    'has_bounds_check','has_null_check','has_size_check',
-    'num_arithmetic_ops','num_assignments','num_comparisons',
-    'num_casts','num_goto',
+    m for group in F10_METRIC_GROUPS.values() for m in group
 ]
+
+# Sanity check — đảm bảo đủ 32 metric và không trùng
+assert len(F10_METRIC_NAMES) == 32, \
+    f"F10 must have exactly 32 metrics, got {len(F10_METRIC_NAMES)}"
+assert len(set(F10_METRIC_NAMES)) == 32, \
+    "F10 metric names must be unique"
 
 # GCN
 GCN_HIDDEN = 128
