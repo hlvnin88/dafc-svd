@@ -1,10 +1,10 @@
-# DAFC-SVD: Deficiency-Aware Feature Complementarity for Source Code Vulnerability Detection
+# A Deficiency Aware Feature Complementarity Framework for Source Code Vulnerability Detection
 
 ---
 
 
 
-Official implementation of the paper **"DAFC-SVD: Deficiency-Aware Feature Complementarity for Source Code Vulnerability Detection"**.
+Official implementation of the paper **"A Deficiency Aware Feature Complementarity Framework for Source Code Vulnerability Detection"**.
 
 
 ## 1. Abstract
@@ -154,9 +154,9 @@ python reproduce_all_results.py
 
 ## 8. Reported Metrics
 
-All numbers below match the paper **exactly** after running the pipeline.
+All numbers below match the paper **exactly** after running the pipeline. Numbering is sequential 8.1–8.21; the original paper's table number (if different) is noted in each subsection.
 
-### 8.1 Dataset statistics (Table 2)
+### 8.1 Dataset statistics (paper Table 2)
 
 | Dataset | Raw | Clean | Train | Val | Test |
 |---|---|---|---|---|---|
@@ -166,7 +166,7 @@ All numbers below match the paper **exactly** after running the pipeline.
 
 Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 vulnerable + 21,457 non-vulnerable**.
 
-### 8.2 Feature configuration (Table 3)
+### 8.2 Feature configuration (paper Table 3)
 
 | Group | Representation | Encoder | Dim |
 |---|---|---|---|
@@ -181,7 +181,7 @@ Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 
 | F9  | Deep structural embedding | GraphCodeBERT-base | 768 → 256 |
 | F10 | Security-risk metrics | 32 static metrics | 32 → 256 |
 
-### 8.3 Extraction results on Devign (Table 4)
+### 8.3 Extraction results on Devign (paper Table 4)
 
 | Group | File | Input | Success | Failed | Coverage | Time | Storage |
 |---|---|---|---|---|---|---|---|
@@ -196,7 +196,7 @@ Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 
 | F9  | F9_deep_structural.npy | 24,754 | 23,820 | 934 | 96.23% | 1.68 h | 0.89 GB |
 | F10 | F10_security_metrics.csv | 24,754 | 24,620 | 134 | 99.46% | 12 min | 0.08 GB |
 
-### 8.4 Cost components on Devign (Table 5)
+### 8.4 Cost components on Devign (paper Table 5)
 
 | Group | Ext time | Inf time (ms/sample) | Dim | Peak mem (MB) | Failure rate (%) | Cost |
 |---|---|---|---|---|---|---|
@@ -213,7 +213,7 @@ Big-Vul test: **22,773 samples** = 15% stratified split (seed 42), with **1,316 
 
 Cost = `0.2 × (ext_norm + inf_norm + dim_norm + mem_norm + fail_norm)` with Min-Max normalization over 10 groups.
 
-### 8.5 Individual performance on Devign (Table 4b)
+### 8.5 Individual performance on Devign (paper Table 4b)
 
 | Group | Representation | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|---|
@@ -230,7 +230,7 @@ Cost = `0.2 × (ext_norm + inf_norm + dim_norm + mem_norm + fail_norm)` with Min
 
 Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 
-### 8.6 Filtering funnel (Table 5b)
+### 8.6 Filtering funnel (paper Table 5b)
 
 | Step | Remaining | Retention |
 |---|---|---|
@@ -240,7 +240,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | After Cost ≤ 0.75 | 41 | 10.93% |
 | After PreScore ranking (K=7) | 7 | 1.87% |
 
-### 8.7 Top-7 selected combinations (Table 6)
+### 8.7 Top-7 selected combinations (paper Table 6)
 
 | Rank | Symbol | Features | Coverage | Com | Ovl | Cost | PreScore |
 |---|---|---|---|---|---|---|---|
@@ -252,7 +252,52 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | 6 | S6 | F5 + F8 + F10      | 0.928 | 0.432 | 0.318 | 0.640 | 0.821 |
 | 7 | S7 | F8 + F9            | 0.956 | 0.405 | 0.438 | 0.550 | 0.817 |
 
-### 8.8 MMAF on Devign (Table 7)
+### 8.8 Threshold sensitivity (paper Table 7, code.docx)
+
+| Configuration | θ_cov | θ_ovl | θ_cost | After Coverage | After Ovl | After Cost |
+|---|---|---|---|---|---|---|
+| Conservative | 0.83 | 0.57 | 0.72 | 273 | 118 | 35 |
+| Default      | 0.80 | 0.60 | 0.75 | 286 | 132 | 41 |
+| Relaxed      | 0.77 | 0.63 | 0.78 | 303 | 149 | 49 |
+
+### 8.9 Five-feature analysis (paper Table 8, code.docx)
+
+| Rank | Feature combination | Coverage | Com | Ovl | Cost | PreScore |
+|---|---|---|---|---|---|---|
+| 1 | F2 + F3 + F8 + F9 + F10 | 0.923 | 0.487 | 0.401 | 0.718 | 0.813 |
+| 2 | F2 + F4 + F8 + F9 + F10 | 0.910 | 0.478 | 0.417 | 0.731 | 0.809 |
+| 3 | F2 + F3 + F4 + F8 + F10 | 0.917 | 0.466 | 0.439 | 0.696 | 0.804 |
+| 4 | F2 + F3 + F5 + F8 + F10 | 0.886 | 0.474 | 0.425 | 0.734 | 0.800 |
+| 5 | F3 + F4 + F5 + F8 + F10 | 0.879 | 0.462 | 0.447 | 0.743 | 0.796 |
+| 6 | F2 + F3 + F4 + F5 + F10 | 0.861 | 0.451 | 0.472 | 0.749 | 0.791 |
+
+Best 5-feature PreScore = 0.813, lower than S7 = 0.817 → no 5-feature combination was promoted to MMAF.
+
+### 8.10 PreScore sensitivity (paper Table 9, code.docx)
+
+| Configuration | α | β | γ | η | Rank of S1 | Overlap with Default |
+|---|---|---|---|---|---|---|
+| Default                  | 0.40 | 0.30 | 0.20 | 0.10 | 1 | 7/7 |
+| BasePerf-oriented        | 0.45 | 0.25 | 0.20 | 0.10 | 3 | 6/7 |
+| Complementarity-oriented | 0.35 | 0.35 | 0.20 | 0.10 | 1 | 6/7 |
+| Overlap-aware            | 0.35 | 0.30 | 0.25 | 0.10 | 2 | 5/7 |
+| Cost-aware               | 0.35 | 0.30 | 0.20 | 0.15 | 4 | 5/7 |
+
+### 8.11 Seed stability (paper Table 7, code.docx)
+
+| Symbol | Seed 42 | Seed 52 | Seed 62 | Seed 72 | Seed 82 | Frequency |
+|---|---|---|---|---|---|---|
+| S1 | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 |
+| S2 | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 |
+| S3 | ✓ | ✓ | ✓ | ✓ |   | 4/5 |
+| S4 | ✓ | ✓ | ✓ | ✓ | ✓ | 5/5 |
+| S5 | ✓ | ✓ | ✓ | ✓ |   | 4/5 |
+| S6 | ✓ | ✓ | ✓ | ✓ |   | 4/5 |
+| S7 | ✓ | ✓ | ✓ |   |   | 3/5 |
+
+Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 52, 62, 72, 82).
+
+### 8.12 MMAF on Devign (paper Table 7, Update.docx)
 
 | Symbol | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
@@ -264,7 +309,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | S6 | — | — | 0.865 ± 0.004 | — |
 | S7 | — | — | 0.852 ± 0.005 | — |
 
-### 8.9 MMAF on Juliet (Table 8)
+### 8.13 MMAF on Juliet (paper Table 8, Update.docx)
 
 | Symbol | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
@@ -276,7 +321,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | S6 | 0.908 ± 0.004 | 0.890 ± 0.004 | 0.899 ± 0.004 | 0.941 ± 0.003 |
 | S7 | 0.890 ± 0.004 | 0.870 ± 0.004 | 0.880 ± 0.004 | 0.920 ± 0.003 |
 
-### 8.10 MMAF on Big-Vul (external test) (Table 9)
+### 8.14 MMAF on Big-Vul (external test) (paper Table 9, Update.docx)
 
 | Symbol | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
@@ -288,7 +333,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | S6 | 0.758 ± 0.006 | 0.764 ± 0.006 | 0.761 ± 0.006 | 0.846 ± 0.005 |
 | S7 | 0.738 ± 0.006 | 0.746 ± 0.006 | 0.742 ± 0.006 | 0.824 ± 0.005 |
 
-### 8.11 F1 summary across datasets (Table 10)
+### 8.15 F1 summary across datasets (paper Table 10, Update.docx)
 
 | Symbol | Devign | Juliet | Big-Vul | Average | Drop |
 |---|---|---|---|---|---|
@@ -300,7 +345,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | S6 | 0.865 | 0.899 | 0.761 | 0.842 | 0.104 |
 | S7 | 0.852 | 0.880 | 0.742 | 0.825 | 0.110 |
 
-### 8.12 Direct comparison (Table 11)
+### 8.16 Direct comparison (paper Table 11, Update.docx)
 
 | Method | Features | Devign | Juliet | Big-Vul | Cost |
 |---|---|---|---|---|---|
@@ -309,7 +354,7 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | Full concatenation | F1–F10 | 0.864 | 0.889 | 0.738 | 1.000 |
 | **DAFC-SVD + MMAF** | **S1** | **0.881** | **0.912** | **0.785** | 0.720 |
 
-### 8.13 Internal comparison and ablation (Table 12)
+### 8.17 Internal comparison and ablation (paper Table 12, Update.docx)
 
 | Variant | Selected combo | Devign | Juliet | Big-Vul | Cost |
 |---|---|---|---|---|---|
@@ -318,12 +363,18 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | Without Com | F3+F5+F8+F9 | 0.868 | 0.898 | 0.758 | 0.710 |
 | Without Ovl | F4+F8+F9+F10 | 0.866 | 0.895 | 0.754 | 0.700 |
 | Without Cost | F5+F7+F8+F9 | 0.879 | 0.913 | 0.782 | 0.870 |
-| + Concatenation | F5+F8+F9+F10 | 0.861 | 0.892 | 0.746 | 0.720 |
-| + Average fusion | F5+F8+F9+F10 | 0.855 | 0.884 | 0.735 | 0.720 |
 | Random + MMAF | F1+F2+F5+F10 | 0.852 | 0.881 | 0.731 | 0.590 |
 | Top-individual + MMAF | F5+F7+F8+F9 | 0.869 | 0.899 | 0.757 | 0.870 |
 
-### 8.14 Selection by usage objective (Table 13)
+### 8.18 Ablation fusion (paper Table 12, Update.docx)
+
+| Variant | Selected combo | Devign | Juliet | Big-Vul | Cost |
+|---|---|---|---|---|---|
+| Full DAFC-SVD (MMAF) | F5+F8+F9+F10 | 0.881 | 0.912 | 0.785 | 0.720 |
+| DAFC-SVD + Concatenation | F5+F8+F9+F10 | 0.861 | 0.892 | 0.746 | 0.720 |
+| DAFC-SVD + Average fusion | F5+F8+F9+F10 | 0.855 | 0.884 | 0.735 | 0.720 |
+
+### 8.19 Selection by usage objective (paper Table 13, Update.docx)
 
 | Objective | Combo | Devign | Juliet | Big-Vul | Avg | Cost |
 |---|---|---|---|---|---|---|
@@ -332,7 +383,25 @@ Best single feature: **F9 (F1 = 0.827 ± 0.004)**.
 | Generalization-oriented | S1 | 0.881 | 0.912 | 0.785 | 0.859 | 0.720 |
 | Balanced multi-criteria | S4 | 0.873 | 0.907 | 0.773 | 0.851 | 0.700 |
 
-### 8.15 External baselines (same protocol) (Table 15)
+### 8.20 Selection baselines (Random / Top-individual)
+
+| Method | Combination | Devign | Juliet | Big-Vul | Cost |
+|---|---|---|---|---|---|
+| Random feature selection + MMAF | F1 + F2 + F5 + F10 | 0.852 | 0.881 | 0.731 | 0.590 |
+| Top-individual-feature selection + MMAF | F5 + F7 + F8 + F9 | 0.869 | 0.899 | 0.757 | 0.870 |
+
+### 8.21 External baselines
+
+**Reported methods (paper Table 14, Update.docx):**
+
+| Method | Approach | Dataset / setting | Reported result |
+|---|---|---|---|
+| PVDetector | Graph-based + pretraining | PVData / PVData+ / Big-Vul | F1 = 93.01% / 76.19% / 47.85% |
+| ZSVulD | Transformer-based / zero-shot | Devign → ReVeal | F1 = 65.00% |
+| FusionVul | Multimodal feature fusion | Devign / ReVeal / SVulD / DiverseVul | F1 = 58.42% / 47.09% / 53.86% / 25.12% |
+| RLV | LLM + repository context | FFmpeg+QEMU / DiverseVul; unseen-project | F1 improvement = 26.83% over SOTA |
+
+**Same-protocol baselines on Devign (paper Table 15, Update.docx):**
 
 | Method | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
