@@ -396,7 +396,7 @@ Per-seed Top-7 overlap with mean Top-7: **6/7, 6/7, 6/7, 5/7, 7/7** (seeds 42, 5
 | FusionVul | Multimodal feature fusion | Devign / ReVeal / SVulD / DiverseVul | F1 = 58.42% / 47.09% / 53.86% / 25.12% |
 | RLV | LLM + repository context | FFmpeg+QEMU / DiverseVul; unseen-project | F1 improvement = 26.83% over SOTA |
 
-**Same-protocol baselines on Devign (paper Table 15, Update.docx):**
+**Same-protocol baselines on Devign :**
 
 | Method | Precision | Recall | F1 | ROC-AUC |
 |---|---|---|---|---|
