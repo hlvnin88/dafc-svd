@@ -437,4 +437,4 @@ results/
 
 ## 12. Contact
 
-Open an issue or email [hlvnin88@gmail.com].
+hlvnin88@gmail.com
