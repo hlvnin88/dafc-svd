@@ -66,9 +66,22 @@ def download_devign(base_dir: Path, force: bool = False) -> Path:
         else: raise RuntimeError("Không xác định file tải về")
 
     if zipfile.is_zipfile(out):
-        with zipfile.ZipFile(out) as z:
-            z.extractall(base_dir)
-        out.unlink()
+    # Trường hợp file tải về là ZIP
+    with zipfile.ZipFile(out) as z:
+        z.extractall(base_dir)
+    out.unlink()
+
+elif out.is_file():
+    # Trường hợp file tải về thực tế là JSON
+    with open(out, "rb") as f:
+        header = f.read(100).lstrip()
+
+    if header.startswith((b"[", b"{")):
+        shutil.move(str(out), str(json_path))
+    else:
+        raise RuntimeError(
+            f"File Devign tải về không phải ZIP hoặc JSON: {out}"
+        )
 
     candidates = list(base_dir.rglob(DEVIGN_JSON_NAME))
     if not candidates:
