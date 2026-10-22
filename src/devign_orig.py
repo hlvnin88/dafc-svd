@@ -57,47 +57,59 @@ def download_devign(base_dir: Path, force: bool = False) -> Path:
         except Exception:
             continue
 
-    if not downloaded:
+if not downloaded:
         raise RuntimeError("Tải Devign thất bại")
 
     if not out.exists():
         files = [f for f in base_dir.iterdir() if f.is_file()]
-        if len(files) == 1: out = files[0]
-        else: raise RuntimeError("Không xác định file tải về")
+        if len(files) == 1:
+            out = files[0]
+        else:
+            raise RuntimeError("Không xác định file tải về")
 
     if zipfile.is_zipfile(out):
-    # Trường hợp file tải về là ZIP
-    with zipfile.ZipFile(out) as z:
-        z.extractall(base_dir)
-    out.unlink()
+        # Trường hợp file tải về là ZIP
+        with zipfile.ZipFile(out) as z:
+            z.extractall(base_dir)
+        out.unlink()
 
-elif out.is_file():
-    # Trường hợp file tải về thực tế là JSON
-    with open(out, "rb") as f:
-        header = f.read(100).lstrip()
+    elif out.is_file():
+        # Trường hợp file tải về là JSON
+        with open(out, "rb") as f:
+            header = f.read(100).lstrip()
 
-    if header.startswith((b"[", b"{")):
-        shutil.move(str(out), str(json_path))
-    else:
-        raise RuntimeError(
-            f"File Devign tải về không phải ZIP hoặc JSON: {out}"
-        )
+        if header.startswith((b"[", b"{")):
+            if out != json_path:
+                shutil.move(str(out), str(json_path))
+        else:
+            raise RuntimeError(
+                f"File Devign không phải ZIP hoặc JSON: {out}"
+            )
 
     candidates = list(base_dir.rglob(DEVIGN_JSON_NAME))
+
     if not candidates:
-        candidates = [p for p in base_dir.rglob('*.json')
-                      if 'function' in p.name.lower()]
+        candidates = [
+            p for p in base_dir.rglob("*.json")
+            if "function" in p.name.lower()
+        ]
+
     if not candidates:
-        candidates = list(base_dir.rglob('*.json'))
+        candidates = list(base_dir.rglob("*.json"))
+
     if not candidates:
-        raise RuntimeError(f"Không tìm thấy function.json tại {base_dir}")
+        raise RuntimeError(
+            f"Không tìm thấy function.json tại {base_dir}"
+        )
 
     src = max(candidates, key=lambda p: p.stat().st_size)
-    if src != json_path:
-        if json_path.exists(): json_path.unlink()
-        shutil.move(str(src), str(json_path))
-    return json_path
 
+    if src != json_path:
+        if json_path.exists():
+            json_path.unlink()
+        shutil.move(str(src), str(json_path))
+
+    return json_path
 
 # ============================================================================
 # 2. PARSE
